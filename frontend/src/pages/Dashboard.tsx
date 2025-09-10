@@ -5,7 +5,7 @@ import { metals } from '@utils/mockData'
 import { Link } from 'react-router-dom'
 
 export default function Dashboard() {
-  const { role, alerts, indicesSeries, hotspots } = useAppStore()
+  const { role, indicesSeries, hotspots } = useAppStore()
   const stats = useMemo(() => {
     const total = hotspots.length
     const high = hotspots.filter(h => h.risk === 'high').length
@@ -66,15 +66,6 @@ export default function Dashboard() {
         </ul>
       </div>
 
-      <div className="card">
-        <h2>Recent Alerts</h2>
-        <ul>
-          {alerts.slice(0, 5).map(a => (
-            <li key={a.id}>{new Date(a.ts).toLocaleString()}: {a.message}</li>
-          ))}
-          {alerts.length === 0 && <li>No alerts yet.</li>}
-        </ul>
-      </div>
     </div>
   )
 }

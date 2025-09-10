@@ -5,13 +5,12 @@ import Dashboard from '@pages/Dashboard'
 import MapPage from '@pages/MapPage'
 import DataUpload from '@pages/DataUpload'
 import Reports from '@pages/Reports'
-import Alerts from '@pages/Alerts'
 import Profile from '@pages/Profile'
 import Education from '@pages/Education'
 import { useAppStore } from '@state/store'
-import { FiMap, FiHome, FiUpload, FiAlertTriangle, FiUser, FiBookOpen, FiBarChart2 } from 'react-icons/fi'
+import { FiMap, FiHome, FiUpload, FiUser, FiBookOpen, FiBarChart2 } from 'react-icons/fi'
 import ChatbotWidget from '@components/ChatbotWidget'
-import ToastNotification from '@components/ToastNotification'
+// import ToastNotification from '@components/ToastNotification'
 
 export default function App() {
   console.log('MetalSense: App component rendering...')
@@ -38,7 +37,6 @@ export default function App() {
         <Link className="button" to="/map"><FiMap /> <span aria-hidden>Map</span></Link>
         <Link className="button" to="/upload"><FiUpload /> <span aria-hidden>Upload</span></Link>
         <Link className="button" to="/reports"><FiBarChart2 /> <span aria-hidden>Reports</span></Link>
-        <Link className="button" to="/alerts"><FiAlertTriangle /> <span aria-hidden>Alerts</span></Link>
         <Link className="button" to="/education"><FiBookOpen /> <span aria-hidden>Education</span></Link>
         <div className="spacer" />
         <span className={`badge ${backendConnected ? 'safe' : 'moderate'}`} title={backendConnected ? 'Connected to backend' : 'Using offline data'}>
@@ -60,7 +58,6 @@ export default function App() {
             <Route path="/map" element={<MapPage />} />
             <Route path="/upload" element={<DataUpload />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/alerts" element={<Alerts />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/education" element={<Education />} />
           </Routes>
@@ -69,7 +66,6 @@ export default function App() {
       <span className="sr-only" aria-live="assertive">{location.pathname}</span>
       {/* Floating components */}
       <ChatbotWidget />
-      <ToastNotification />
     </div>
   )
 }
