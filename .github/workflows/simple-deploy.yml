@@ -1,9 +1,8 @@
-name: Simple GitHub Pages Deploy
+name: Simple GitHub Pages Deploy (DISABLED)
 
+# Temporarily disabled - using pages-deploy.yml instead
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # Only manual trigger
 
 permissions:
   contents: read
