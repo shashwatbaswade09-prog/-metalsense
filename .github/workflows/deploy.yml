@@ -33,18 +33,18 @@ jobs:
     - name: Install root dependencies
       run: |
         if [ -f package-lock.json ]; then
-          npm ci
+          npm ci --platform=linux --arch=x64
         else
-          npm install
+          npm install --platform=linux --arch=x64
         fi
         
     - name: Install frontend dependencies
       run: |
         cd frontend
         if [ -f package-lock.json ]; then
-          npm ci
+          npm ci --platform=linux --arch=x64
         else
-          npm install
+          npm install --platform=linux --arch=x64
         fi
       
     - name: Build frontend application
