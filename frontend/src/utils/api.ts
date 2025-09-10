@@ -36,5 +36,13 @@ export const api = {
   },
   getCompliance: (): Promise<any[]> => http<any[]>('/compliance/industries'),
   planRoute: (body: RoutePlanRequest) => http<any>('/routes/plan', { method: 'POST', body: JSON.stringify(body) }),
+  
+  // Photo upload methods
+  getSignedUrl: (filename: string, contentType: string) => 
+    http<{ uploadId: string, uploadUrl: string, expiresAt: string }>('/photos/signed-url', {
+      method: 'POST', 
+      body: JSON.stringify({ filename, contentType })
+    }),
+  getPhotoMetadata: (uploadId: string) => http<any>(`/photos/${uploadId}/metadata`),
 }
 

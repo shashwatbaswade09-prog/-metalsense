@@ -2,6 +2,9 @@ import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
 import { nanoid } from 'nanoid'
+import crypto from 'crypto'
+import path from 'path'
+import fs from 'fs'
 
 const app = express()
 const port = process.env.PORT ? Number(process.env.PORT) : 4000
@@ -15,6 +18,7 @@ interface Hotspot { id: string, lat: number, lng: number, metal: string, value: 
 interface Incident { id: string, lat: number, lng: number, description?: string, photoUrl?: string, status: 'submitted'|'reviewing'|'validated'|'dismissed', createdAt: string, createdBy?: string }
 interface Alert { id: string, level: 'info'|'warning'|'danger', message: string, ts: string }
 interface Dataset { id: string, filename: string, status: 'processing'|'validated'|'failed', createdAt: string }
+interface PhotoUpload { id: string, filename: string, uploadUrl: string, status: 'pending'|'uploaded'|'processing'|'completed'|'failed', metadata?: { size: number, type: string }, createdAt: string, expiresAt: string }
 
 const hotspots: Hotspot[] = [
   { id: 'h1', lat: 12.972, lng: 77.594, metal: 'Pb', value: 35, risk: 'safe', updatedAt: new Date(Date.now()-60000).toISOString() },
@@ -26,6 +30,13 @@ const hotspots: Hotspot[] = [
 const incidents: Incident[] = []
 const alerts: Alert[] = []
 const datasets: Dataset[] = []
+const photoUploads: PhotoUpload[] = []
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(process.cwd(), 'uploads')
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true })
+}
 const indices: { date: string, HPI: number, HEI: number, MI: number }[] = Array.from({ length: 12 }).map((_, i) => {
   const base = 50 + Math.sin(i/2)*15
   return { date: `2025-${String(i+1).padStart(2,'0')}-01`, HPI: Math.round(base), HEI: Math.round(base*0.8), MI: Math.round(base*1.1) }
@@ -108,7 +119,184 @@ app.get(`${apiPrefix}/datasets/:id`, (req, res) => {
 app.get(`${apiPrefix}/datasets/:id/validation`, (req, res) => {
   const ds = datasets.find(d => d.id === req.params.id)
   if (!ds) return res.status(404).end()
-  res.json({ errors: [], warnings: [] })
+  
+  // Simulate comprehensive validation results
+  const errors = []
+  const warnings = []
+  
+  // Add validation results based on filename patterns (demo)
+  if (ds.filename.includes('invalid')) {
+    errors.push({
+      row: 5,
+      column: 'metal_concentration',
+      message: 'Invalid concentration value: must be numeric and positive',
+      value: 'N/A'
+    })
+    errors.push({
+      row: 12,
+      column: 'latitude',
+      message: 'Coordinate out of bounds: latitude must be between -90 and 90',
+      value: '95.123'
+    })
+  }
+  
+  if (ds.filename.includes('warning') || Math.random() < 0.3) {
+    warnings.push({
+      row: 3,
+      column: 'timestamp',
+      message: 'Timestamp format inconsistent: recommend ISO 8601 format',
+      value: '2023-12-01 10:30'
+    })
+    warnings.push({
+      row: 8,
+      column: 'metal_type',
+      message: 'Unknown metal abbreviation: suggest using standard symbols',
+      value: 'Pb2+'
+    })
+  }
+  
+  res.json({ 
+    errors, 
+    warnings,
+    summary: {
+      totalRows: 150,
+      validRows: 150 - errors.length,
+      errorRows: errors.length,
+      warningRows: warnings.length,
+      requiredColumns: ['latitude', 'longitude', 'metal_type', 'concentration', 'timestamp'],
+      detectedColumns: ['lat', 'lng', 'metal', 'value', 'date', 'source'],
+      columnMapping: {
+        'lat': 'latitude',
+        'lng': 'longitude', 
+        'metal': 'metal_type',
+        'value': 'concentration',
+        'date': 'timestamp'
+      }
+    }
+  })
+})
+
+// Photo upload endpoints
+app.post(`${apiPrefix}/photos/signed-url`, (req, res) => {
+  const { filename, contentType } = req.body || {}
+  
+  if (!filename || !contentType) {
+    return res.status(400).json({ error: 'filename and contentType required' })
+  }
+  
+  // Validate file type
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+  if (!allowedTypes.includes(contentType)) {
+    return res.status(400).json({ error: 'Unsupported file type. Only JPEG, PNG, and WebP are allowed.' })
+  }
+  
+  const uploadId = nanoid()
+  const fileExtension = path.extname(filename) || '.jpg'
+  const storedFilename = `${uploadId}${fileExtension}`
+  const uploadUrl = `${req.protocol}://${req.get('host')}${apiPrefix}/photos/upload/${uploadId}`
+  
+  const upload: PhotoUpload = {
+    id: uploadId,
+    filename: storedFilename,
+    uploadUrl,
+    status: 'pending',
+    metadata: { size: 0, type: contentType },
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString() // 15 minutes
+  }
+  
+  photoUploads.push(upload)
+  
+  res.json({
+    uploadId,
+    uploadUrl,
+    expiresAt: upload.expiresAt
+  })
+})
+
+app.put(`${apiPrefix}/photos/upload/:uploadId`, upload.single('photo'), (req, res) => {
+  const { uploadId } = req.params
+  const photoUpload = photoUploads.find(p => p.id === uploadId)
+  
+  if (!photoUpload) {
+    return res.status(404).json({ error: 'Upload not found' })
+  }
+  
+  if (photoUpload.status !== 'pending') {
+    return res.status(400).json({ error: 'Upload already processed' })
+  }
+  
+  if (new Date() > new Date(photoUpload.expiresAt)) {
+    photoUpload.status = 'failed'
+    return res.status(410).json({ error: 'Upload URL expired' })
+  }
+  
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file provided' })
+  }
+  
+  try {
+    // Save file to uploads directory
+    const filePath = path.join(uploadsDir, photoUpload.filename)
+    fs.writeFileSync(filePath, req.file.buffer)
+    
+    // Update upload status
+    photoUpload.status = 'uploaded'
+    photoUpload.metadata = {
+      size: req.file.size,
+      type: req.file.mimetype
+    }
+    
+    // Simulate processing
+    setTimeout(() => {
+      photoUpload.status = 'completed'
+      sseBroadcast('photo_processed', { uploadId, status: 'completed', url: `/api/v1/photos/${uploadId}` })
+    }, 1000)
+    
+    res.json({
+      uploadId,
+      status: photoUpload.status,
+      url: `${apiPrefix}/photos/${uploadId}`
+    })
+  } catch (error) {
+    photoUpload.status = 'failed'
+    res.status(500).json({ error: 'Failed to save file' })
+  }
+})
+
+app.get(`${apiPrefix}/photos/:uploadId`, (req, res) => {
+  const { uploadId } = req.params
+  const photoUpload = photoUploads.find(p => p.id === uploadId)
+  
+  if (!photoUpload || photoUpload.status !== 'completed') {
+    return res.status(404).json({ error: 'Photo not found' })
+  }
+  
+  const filePath = path.join(uploadsDir, photoUpload.filename)
+  
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: 'File not found on disk' })
+  }
+  
+  res.sendFile(path.resolve(filePath))
+})
+
+app.get(`${apiPrefix}/photos/:uploadId/metadata`, (req, res) => {
+  const { uploadId } = req.params
+  const photoUpload = photoUploads.find(p => p.id === uploadId)
+  
+  if (!photoUpload) {
+    return res.status(404).json({ error: 'Photo not found' })
+  }
+  
+  res.json({
+    id: photoUpload.id,
+    filename: photoUpload.filename,
+    status: photoUpload.status,
+    metadata: photoUpload.metadata,
+    createdAt: photoUpload.createdAt,
+    url: photoUpload.status === 'completed' ? `${apiPrefix}/photos/${uploadId}` : null
+  })
 })
 
 // Compliance
