@@ -1,5 +1,3 @@
-import Leaderboard from '@components/Gamification/Leaderboard'
-
 export default function Education() {
   return (
     <div className="grid cols-2">
@@ -21,7 +19,6 @@ export default function Education() {
           <div className="card">Protective measures for workers</div>
         </div>
       </div>
-      <Leaderboard />
     </div>
   )
 }
