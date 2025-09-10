@@ -12,6 +12,7 @@
     "classnames": "^2.5.1",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
+    "lucide-react": "^0.441.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -19,10 +20,10 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.23.0",
     "recharts": "^2.11.0",
-    "zustand": "^4.5.2",
-    "lucide-react": "^0.441.0"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.50.1",
     "@types/classnames": "^2.3.1",
     "@types/leaflet": "^1.9.12",
     "@types/node": "^20.11.30",
@@ -34,4 +35,3 @@
     "vite": "^5.2.0"
   }
 }
-

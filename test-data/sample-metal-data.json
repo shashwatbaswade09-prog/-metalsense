@@ -1,0 +1,211 @@
+{
+  "test_scenarios": [
+    {
+      "scenario_name": "Clean Water Sample - Mumbai Marine Drive",
+      "location": {
+        "latitude": 18.9220,
+        "longitude": 72.8235,
+        "location_name": "Mumbai Marine Drive Beach"
+      },
+      "metal_measurements": [
+        {
+          "metal": "As",
+          "concentration": 0.002,
+          "notes": "Below WHO limit (0.01 mg/L)"
+        },
+        {
+          "metal": "Cd",
+          "concentration": 0.001,
+          "notes": "Below WHO limit (0.003 mg/L)"
+        },
+        {
+          "metal": "Cr",
+          "concentration": 0.01,
+          "notes": "Below WHO limit (0.05 mg/L)"
+        },
+        {
+          "metal": "Pb",
+          "concentration": 0.005,
+          "notes": "Below WHO limit (0.01 mg/L)"
+        }
+      ],
+      "expected_result": "Low Risk - All metals below WHO standards"
+    },
+    {
+      "scenario_name": "Moderate Contamination - Industrial Area Delhi",
+      "location": {
+        "latitude": 28.6139,
+        "longitude": 77.2090,
+        "location_name": "Industrial Area, New Delhi"
+      },
+      "metal_measurements": [
+        {
+          "metal": "As",
+          "concentration": 0.015,
+          "notes": "Above WHO limit (0.01 mg/L)"
+        },
+        {
+          "metal": "Cd",
+          "concentration": 0.005,
+          "notes": "Above WHO limit (0.003 mg/L)"
+        },
+        {
+          "metal": "Cr",
+          "concentration": 0.08,
+          "notes": "Above WHO limit (0.05 mg/L)"
+        },
+        {
+          "metal": "Cu",
+          "concentration": 1.5,
+          "notes": "Below WHO limit (2.0 mg/L)"
+        },
+        {
+          "metal": "Pb",
+          "concentration": 0.025,
+          "notes": "Above WHO limit (0.01 mg/L)"
+        }
+      ],
+      "expected_result": "Medium to High Risk - Multiple metals exceed WHO standards"
+    },
+    {
+      "scenario_name": "Severe Contamination - Mining Area Jharkhand",
+      "location": {
+        "latitude": 23.6102,
+        "longitude": 85.2799,
+        "location_name": "Mining Site, Ranchi, Jharkhand"
+      },
+      "metal_measurements": [
+        {
+          "metal": "As",
+          "concentration": 0.05,
+          "notes": "5x WHO limit - Critical level"
+        },
+        {
+          "metal": "Cd",
+          "concentration": 0.015,
+          "notes": "5x WHO limit - Critical level"
+        },
+        {
+          "metal": "Cr",
+          "concentration": 0.2,
+          "notes": "4x WHO limit - Critical level"
+        },
+        {
+          "metal": "Hg",
+          "concentration": 0.008,
+          "notes": "Above WHO limit (0.006 mg/L)"
+        },
+        {
+          "metal": "Pb",
+          "concentration": 0.08,
+          "notes": "8x WHO limit - Critical level"
+        },
+        {
+          "metal": "Zn",
+          "concentration": 8.0,
+          "notes": "Above WHO guideline (3.0 mg/L)"
+        }
+      ],
+      "expected_result": "Critical Risk - Multiple metals at dangerous levels"
+    },
+    {
+      "scenario_name": "River Water - Ganga at Varanasi",
+      "location": {
+        "latitude": 25.3176,
+        "longitude": 82.9739,
+        "location_name": "River Ganga, Varanasi Ghat"
+      },
+      "metal_measurements": [
+        {
+          "metal": "As",
+          "concentration": 0.012,
+          "notes": "Slightly above WHO limit"
+        },
+        {
+          "metal": "Cd",
+          "concentration": 0.004,
+          "notes": "Above WHO limit"
+        },
+        {
+          "metal": "Cr",
+          "concentration": 0.06,
+          "notes": "Above WHO limit"
+        },
+        {
+          "metal": "Cu",
+          "concentration": 0.8,
+          "notes": "Below WHO limit"
+        },
+        {
+          "metal": "Fe",
+          "concentration": 1.2,
+          "notes": "Above WHO guideline (0.3 mg/L)"
+        },
+        {
+          "metal": "Mn",
+          "concentration": 0.8,
+          "notes": "Above WHO guideline (0.4 mg/L)"
+        },
+        {
+          "metal": "Ni",
+          "concentration": 0.03,
+          "notes": "Above WHO limit (0.02 mg/L)"
+        }
+      ],
+      "expected_result": "High Risk - River pollution from multiple sources"
+    },
+    {
+      "scenario_name": "Groundwater - Agricultural Area Punjab",
+      "location": {
+        "latitude": 31.3260,
+        "longitude": 75.5762,
+        "location_name": "Agricultural Area, Jalandhar, Punjab"
+      },
+      "metal_measurements": [
+        {
+          "metal": "As",
+          "concentration": 0.008,
+          "notes": "Below WHO limit but detectable"
+        },
+        {
+          "metal": "Cd",
+          "concentration": 0.002,
+          "notes": "Below WHO limit"
+        },
+        {
+          "metal": "Cr",
+          "concentration": 0.04,
+          "notes": "Below WHO limit"
+        },
+        {
+          "metal": "Cu",
+          "concentration": 0.5,
+          "notes": "Below WHO limit"
+        },
+        {
+          "metal": "Pb",
+          "concentration": 0.008,
+          "notes": "Below WHO limit"
+        },
+        {
+          "metal": "Zn",
+          "concentration": 2.5,
+          "notes": "Below WHO guideline"
+        }
+      ],
+      "expected_result": "Low Risk - Agricultural runoff minimal impact"
+    }
+  ],
+  "who_standards_reference": {
+    "As": "0.01 mg/L",
+    "Cd": "0.003 mg/L", 
+    "Cr": "0.05 mg/L",
+    "Cu": "2.0 mg/L",
+    "Fe": "0.3 mg/L (guideline)",
+    "Hg": "0.006 mg/L",
+    "Mn": "0.4 mg/L (guideline)",
+    "Ni": "0.02 mg/L",
+    "Pb": "0.01 mg/L",
+    "Zn": "3.0 mg/L (guideline)"
+  }
+}
