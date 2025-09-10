@@ -14,7 +14,7 @@ if (!root) {
   console.log('MetalSense: Mounting React app...')
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename="/-metalsense">
         <App />
       </BrowserRouter>
     </React.StrictMode>

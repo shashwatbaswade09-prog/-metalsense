@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { RoleSelector } from '@components/RoleSelector'
 import Dashboard from '@pages/Dashboard'
@@ -60,6 +60,7 @@ export default function App() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/education" element={<Education />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>
