@@ -3,8 +3,6 @@ name: Deploy MetalSense App to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -32,15 +30,30 @@ jobs:
         node-version: '18'
         cache: 'npm'
         
-    - name: Install dependencies
-      run: npm ci
-      
+    - name: Install root dependencies
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci
+        else
+          npm install
+        fi
+        
     - name: Install frontend dependencies
-      run: cd frontend && npm ci
+      run: |
+        cd frontend
+        if [ -f package-lock.json ]; then
+          npm ci
+        else
+          npm install
+        fi
       
     - name: Build frontend application
-      run: cd frontend && npm run build
-      
+      run: |
+        cd frontend
+        npm run build
+        echo "Build completed, checking dist folder:"
+        ls -la dist/
+        
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
