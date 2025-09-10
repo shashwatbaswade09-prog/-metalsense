@@ -32,20 +32,16 @@ jobs:
         
     - name: Install root dependencies
       run: |
-        if [ -f package-lock.json ]; then
-          npm ci --platform=linux --arch=x64
-        else
-          npm install --platform=linux --arch=x64
-        fi
+        # Clean install to avoid npm optional dependencies bug
+        rm -rf node_modules package-lock.json || true
+        npm install
         
     - name: Install frontend dependencies
       run: |
         cd frontend
-        if [ -f package-lock.json ]; then
-          npm ci --platform=linux --arch=x64
-        else
-          npm install --platform=linux --arch=x64
-        fi
+        # Clean install to avoid npm optional dependencies bug with Rollup
+        rm -rf node_modules package-lock.json || true
+        npm install
       
     - name: Build frontend application
       run: |
