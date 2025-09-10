@@ -46,7 +46,9 @@ jobs:
         cd frontend
         # Clean install to avoid npm optional dependencies bug with Rollup
         rm -rf node_modules package-lock.json || true
-        npm install
+        npm install --force
+        # Explicitly install Linux Rollup binary
+        npm install @rollup/rollup-linux-x64-gnu --save-dev --force
       
     - name: Build frontend application
       run: |

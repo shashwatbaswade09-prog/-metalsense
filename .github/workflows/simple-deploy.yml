@@ -24,7 +24,12 @@ jobs:
       - name: Install and build
         run: |
           cd frontend
-          npm install
+          # Remove all dependency files to start fresh
+          rm -rf node_modules package-lock.json || true
+          # Install with force to resolve platform dependencies
+          npm install --force
+          # Specifically install the Linux rollup binary
+          npm install @rollup/rollup-linux-x64-gnu --save-dev --force
           npm run build
           
       - name: Upload to GitHub Pages
