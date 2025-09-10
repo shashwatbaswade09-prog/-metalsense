@@ -1,4 +1,15 @@
-# MetalSense - Environmental Pollution Monitoring Platform
+# MetalSense - Environmental Risk Assessment Platform
+
+## 🌊 Live Demo
+Visit the deployed application: **[MetalSense on GitHub Pages](https://shashwatbaswade09-prog.github.io/-metalsense/)**
+
+## 🎯 Major Features
+- **Location-First Workflow**: Set coordinates once, add multiple metal measurements
+- **Environmental Risk Assessment**: Comprehensive HPI calculations with WHO standards  
+- **Real-time Results**: Color-coded risk visualization and professional reporting
+- **Python Backend**: Scientific calculation engine for environmental indices
+- **Interactive GIS Mapping**: Leaflet-based pollution visualization
+- **Test Scenarios**: Complete test data from clean to critical contamination
 
 A comprehensive web application for monitoring and tracking environmental pollution data with interactive mapping, real-time alerts, and data visualization.
 
