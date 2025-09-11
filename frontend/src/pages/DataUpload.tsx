@@ -349,7 +349,7 @@ export default function DataUpload() {
                   border: '1px solid var(--border)', 
                   borderRadius: '4px',
                   backgroundColor: currentLocation.isLocked ? 'var(--background-secondary)' : 'var(--bg-elev)',
-                  color: 'var(--text)'
+                  color: 'var(--text-on-bg)'
                 }}
               />
             </div>
@@ -372,7 +372,7 @@ export default function DataUpload() {
                   border: '1px solid var(--border)', 
                   borderRadius: '4px',
                   backgroundColor: currentLocation.isLocked ? 'var(--background-secondary)' : 'var(--bg-elev)',
-                  color: 'var(--text)'
+                  color: 'var(--text-on-bg)'
                 }}
               />
             </div>
@@ -395,7 +395,7 @@ export default function DataUpload() {
                 border: '1px solid var(--border)', 
                 borderRadius: '4px',
                 backgroundColor: currentLocation.isLocked ? 'var(--background-secondary)' : 'var(--bg-elev)',
-                color: 'var(--text)'
+                color: 'var(--text-on-bg)'
               }}
             />
           </div>
@@ -456,7 +456,7 @@ export default function DataUpload() {
                     border: '1px solid var(--border)', 
                     borderRadius: '4px',
                     backgroundColor: 'var(--bg-elev)',
-                    color: 'var(--text)'
+                    color: 'var(--text-on-bg)'
                   }}
                 >
                   <option value="">Select a metal...</option>
@@ -483,7 +483,7 @@ export default function DataUpload() {
                     border: '1px solid var(--border)', 
                     borderRadius: '4px',
                     backgroundColor: 'var(--bg-elev)',
-                    color: 'var(--text)'
+                    color: 'var(--text-on-bg)'
                   }}
                 />
                 {/* Real-time risk assessment */}
@@ -550,7 +550,7 @@ export default function DataUpload() {
                   border: '1px solid var(--border)', 
                   borderRadius: '4px',
                   backgroundColor: 'var(--bg-elev)',
-                  color: 'var(--text)'
+                  color: 'var(--text-on-bg)'
                 }}
               />
             </div>

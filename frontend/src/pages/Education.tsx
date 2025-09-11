@@ -174,7 +174,7 @@ export default function Education() {
   }
 
   return (
-    <div className="main page-container animate-fadeIn">
+    <div className="main page-container education-page-container animate-fadeIn">
       {/* Modern Header */}
       <div className="page-header">
         <h1 style={{color: 'var(--text-on-bg)'}}>
@@ -252,7 +252,7 @@ export default function Education() {
                             {metal.commonSources.map((source, idx) => (
                               <li key={idx} className="flex items-start">
                                 <ArrowRight className="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
-                                <span className="text-gray-700">{source}</span>
+                                <span className="text-education-primary">{source}</span>
                               </li>
                             ))}
                           </ul>
@@ -265,28 +265,28 @@ export default function Education() {
                         content: (
                           <div className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
-                                <h5 className="font-semibold text-orange-800 mb-2">Immediate Effects</h5>
+                              <div className="education-card-immediate p-3 rounded-lg">
+                                <h5 className="font-semibold mb-2">Immediate Effects</h5>
                                 <ul className="text-sm space-y-1">
                                   {metal.healthEffects.immediate.map((effect, idx) => (
-                                    <li key={idx} className="text-orange-700">• {effect}</li>
+                                    <li key={idx} className="text-education-primary">• {effect}</li>
                                   ))}
                                 </ul>
                               </div>
-                              <div className="bg-red-50 p-3 rounded-lg border border-red-200">
-                                <h5 className="font-semibold text-red-800 mb-2">Long-term Risks</h5>
+                              <div className="education-card-longterm p-3 rounded-lg">
+                                <h5 className="font-semibold mb-2">Long-term Risks</h5>
                                 <ul className="text-sm space-y-1">
                                   {metal.healthEffects.longTerm.map((effect, idx) => (
-                                    <li key={idx} className="text-red-700">• {effect}</li>
+                                    <li key={idx} className="text-education-primary">• {effect}</li>
                                   ))}
                                 </ul>
                               </div>
                             </div>
-                            <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
-                              <h5 className="font-semibold text-purple-800 mb-2">Most Vulnerable Populations</h5>
+                            <div className="education-card-vulnerable p-3 rounded-lg">
+                              <h5 className="font-semibold mb-2">Most Vulnerable Populations</h5>
                               <div className="flex flex-wrap gap-2">
                                 {metal.healthEffects.mostVulnerable.map((group, idx) => (
-                                  <span key={idx} className="px-2 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                                  <span key={idx} className="px-2 py-1 rounded-full text-sm">
                                     {group}
                                   </span>
                                 ))}
@@ -303,25 +303,25 @@ export default function Education() {
                           <div className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div>
-                                <h5 className="font-semibold text-gray-800 mb-2">Detection Methods</h5>
+                                <h5 className="font-semibold text-education-primary mb-2">Detection Methods</h5>
                                 <ul className="text-sm space-y-1">
                                   {metal.detectionMethods.map((method, idx) => (
-                                    <li key={idx} className="text-gray-700 flex items-center">
+                                    <li key={idx} className="text-education-primary flex items-center">
                                       <Eye className="w-3 h-3 mr-2 text-blue-500" />
                                       {method}
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                              <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                                <h5 className="font-semibold text-green-800 mb-2">Safe Limits</h5>
+                              <div className="education-card-safe p-3 rounded-lg">
+                                <h5 className="font-semibold mb-2">Safe Limits</h5>
                                 <div className="text-sm space-y-1">
                                   <div className="flex justify-between">
-                                    <span className="text-green-700">WHO Standard:</span>
+                                    <span className="text-education-primary">WHO Standard:</span>
                                     <span className="font-semibold">{metal.safeLimits.WHO} {metal.safeLimits.unit}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span className="text-green-700">EPA Standard:</span>
+                                    <span className="text-education-primary">EPA Standard:</span>
                                     <span className="font-semibold">{metal.safeLimits.EPA} {metal.safeLimits.unit}</span>
                                   </div>
                                 </div>
@@ -337,12 +337,12 @@ export default function Education() {
                         content: (
                           <div className="space-y-3">
                             <div>
-                              <h5 className="font-semibold text-gray-800 mb-2">Effective Treatment Methods</h5>
+                              <h5 className="font-semibold text-education-primary mb-2">Effective Treatment Methods</h5>
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                                 {metal.treatment.map((method, idx) => (
-                                  <div key={idx} className="bg-blue-50 p-2 rounded text-center text-sm border border-blue-200">
+                                  <div key={idx} className="education-card-treatment p-2 rounded text-sm">
                                     <Shield className="w-4 h-4 mx-auto mb-1 text-blue-600" />
-                                    <span className="text-blue-800">{method}</span>
+                                    <span>{method}</span>
                                   </div>
                                 ))}
                               </div>
@@ -357,10 +357,10 @@ export default function Education() {
                         content: (
                           <div className="space-y-2">
                             {metal.historicalCases.map((caseStudy, idx) => (
-                              <div key={idx} className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                              <div key={idx} className="education-card-historical p-3 rounded-lg">
                                 <div className="flex items-start">
                                   <AlertTriangle className="w-4 h-4 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
-                                  <span className="text-yellow-800 text-sm font-medium">{caseStudy}</span>
+                                  <span className="text-sm font-medium">{caseStudy}</span>
                                 </div>
                               </div>
                             ))}
@@ -678,7 +678,7 @@ export default function Education() {
                                 {effectiveness}% effective
                               </div>
                             </div>
-                            <div className="relative w-full h-3 bg-gray-200/50 rounded-full overflow-hidden">
+                            <div className="relative w-full h-3 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
                               <div 
                                 className={`h-full rounded-full transition-all duration-1000 ${
                                   effectiveness >= 90 ? 'bg-gradient-to-r from-green-400 to-green-600' :

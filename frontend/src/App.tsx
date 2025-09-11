@@ -7,10 +7,10 @@ import DataUpload from '@pages/DataUpload'
 import Reports from '@pages/Reports'
 import Profile from '@pages/Profile'
 import Education from '@pages/Education'
+import SimpleTestDemo from '@components/SimpleTestDemo'
 import { useAppStore } from '@state/store'
-import { FiMap, FiHome, FiUpload, FiUser, FiBookOpen, FiBarChart2 } from 'react-icons/fi'
+import { FiMap, FiHome, FiUpload, FiUser, FiBookOpen, FiBarChart2, FiTool } from 'react-icons/fi'
 import ChatbotWidget from '@components/ChatbotWidget'
-// import ToastNotification from '@components/ToastNotification'
 
 export default function App() {
   console.log('MetalSense: App component rendering...')
@@ -38,10 +38,8 @@ export default function App() {
         <Link className="button" to="/upload"><FiUpload /> <span aria-hidden>Upload</span></Link>
         <Link className="button" to="/reports"><FiBarChart2 /> <span aria-hidden>Reports</span></Link>
         <Link className="button" to="/education"><FiBookOpen /> <span aria-hidden>Education</span></Link>
+        <Link className="button" to="/demo"><FiTool /> <span aria-hidden>Demo</span></Link>
         <div className="spacer" />
-        <span className={`badge ${backendConnected ? 'safe' : 'moderate'}`} title={backendConnected ? 'Connected to backend' : 'Using offline data'}>
-          {backendConnected ? '🟢 Live' : '🟡 Demo'}
-        </span>
         <RoleSelector />
         <button className="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} aria-pressed={theme !== 'light'}>
           {theme === 'light' ? 'Dark' : 'Light'} Mode
@@ -60,6 +58,7 @@ export default function App() {
             <Route path="/reports" element={<Reports />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/education" element={<Education />} />
+            <Route path="/demo" element={<SimpleTestDemo />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

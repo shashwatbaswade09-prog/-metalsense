@@ -7,16 +7,23 @@
   --bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   --bg-solid: #0f172a;
   --bg-elev: #1e293b;
-  --bg-card: #ffffff;
-  --bg-glass: #ffffff;
+  --bg-card: #1e293b;
+  --bg-glass: rgba(30, 41, 59, 0.8);
   --text: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-on-glass: #0f172a;
-  --text-on-glass-secondary: #334155;
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-on-glass: #ffffff;
+  --text-on-glass-secondary: #cbd5e1;
   --text-on-bg: #ffffff;
   --text-on-bg-secondary: #f1f5f9;
+  
+  /* Border Colors */
+  --border: #374151;
+  
+  /* Background Colors */
+  --background-secondary: #374151;
+  --muted: #94a3b8;
   
   /* Vibrant Accent Colors */
   --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -31,7 +38,7 @@
   --danger-solid: #ff6b6b;
   
   /* Glassmorphism */
-  --glass: var(--bg-glass);
+  --glass: rgba(30, 41, 59, 0.8);
   --glass-border: rgba(255, 255, 255, 0.2);
   --backdrop-blur: blur(8px);
   
@@ -61,6 +68,13 @@
   --text-on-bg: #0f172a;
   --text-on-bg-secondary: #334155;
   
+  /* Border Colors */
+  --border: #e2e8f0;
+  
+  /* Background Colors */
+  --background-secondary: #f1f5f9;
+  --muted: #64748b;
+  
   --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -85,6 +99,14 @@
   --text-on-glass-secondary: #1a1a1a;
   --text-on-bg: #ffffff;
   --text-on-bg-secondary: #f1f5f9;
+  
+  /* Border Colors */
+  --border: #333333;
+  
+  /* Background Colors */
+  --background-secondary: #222222;
+  --muted: #666666;
+  
   --glass-border: rgba(255, 255, 255, 0.3);
 }
 
@@ -160,7 +182,7 @@ a:hover {
   align-items: center;
   gap: 20px;
   padding: 0 32px;
-  background: var(--glass);
+  background: var(--bg-elev);
   backdrop-filter: var(--backdrop-blur);
   border-bottom: 1px solid var(--glass-border);
   position: relative;
@@ -175,7 +197,7 @@ a:hover {
   right: 0;
   bottom: 0;
   background: var(--primary);
-  opacity: 0.05;
+  opacity: 0.1;
   pointer-events: none;
 }
 
@@ -183,12 +205,47 @@ a:hover {
   font-weight: 800; 
   font-size: 24px;
   letter-spacing: -0.5px;
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: var(--text-on-bg);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .navbar .spacer { 
   flex: 1; 
+}
+
+/* Navbar buttons and links */
+.navbar .button {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-on-bg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Increase navbar icon sizes */
+.navbar .button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.navbar .button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-on-bg);
+}
+
+.navbar a {
+  color: var(--text-on-bg);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: var(--transition);
+}
+
+.navbar a:hover {
+  opacity: 1;
+  color: var(--text-on-bg);
 }
 
 /* Container */
@@ -207,7 +264,7 @@ a:hover {
 
 /* Theme-Aware Cards with High Readability */
 .card {
-  background: var(--bg-card);
+  background: var(--bg-card) !important;
   border: 2px solid rgba(71, 85, 105, 0.2);
   border-radius: 20px;
   padding: 32px;
@@ -215,7 +272,7 @@ a:hover {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
-  color: var(--text-on-glass);
+  color: var(--text-on-glass) !important;
 }
 
 .card:hover {
@@ -270,9 +327,9 @@ a:hover {
   text-transform: uppercase;
   backdrop-filter: var(--backdrop-blur);
   
-  /* Default glass button */
-  background: var(--glass);
-  color: var(--text);
+  /* Default button with proper contrast */
+  background: var(--bg-elev);
+  color: var(--text-on-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-md);
 }
@@ -346,7 +403,7 @@ a:hover {
 input, select {
   background: var(--bg-elev);
   border: 1px solid var(--border);
-  color: var(--text);
+  color: var(--text-on-bg);
   border-radius: 10px;
   padding: 8px 10px;
 }
@@ -381,6 +438,121 @@ input[type="file"] { padding: 6px; border-radius: 6px; }
 @keyframes slideIn {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* Glass Effect for Education Module */
+.glass-effect {
+  background: var(--glass);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--text-on-glass);
+}
+
+/* Education Module Utility Classes */
+.education-card-immediate {
+  background: rgba(251, 146, 60, 0.1);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+  color: var(--text-on-bg);
+}
+
+.education-card-immediate h5 {
+  color: #ea580c;
+}
+
+.education-card-longterm {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--text-on-bg);
+}
+
+.education-card-longterm h5 {
+  color: #dc2626;
+}
+
+.education-card-vulnerable {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: var(--text-on-bg);
+}
+
+.education-card-vulnerable h5 {
+  color: #7c3aed;
+}
+
+.education-card-vulnerable span {
+  background: rgba(139, 92, 246, 0.2);
+  color: #7c3aed;
+}
+
+.education-card-safe {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--text-on-bg);
+}
+
+.education-card-safe h5 {
+  color: #16a34a;
+}
+
+.education-card-treatment {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--text-on-bg);
+  text-align: center;
+}
+
+.education-card-treatment span {
+  color: #2563eb;
+}
+
+.education-card-historical {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--text-on-bg);
+}
+
+.education-card-historical span {
+  color: #d97706;
+}
+
+/* Text utilities for education */
+.text-education-primary {
+  color: var(--text-on-bg);
+}
+
+.text-education-secondary {
+  color: var(--text-on-bg-secondary);
+}
+
+/* Gradient text effect */
+.text-gradient {
+  background: var(--primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animate fade in */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Theme-aware fixes for Education page */
+.education-page-container .card {
+  background: var(--bg-card);
+  color: var(--text-on-glass);
+}
+
+.education-page-container .glass-effect {
+  background: var(--glass);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--text-on-glass);
 }
 
 /* Page-specific styles */
