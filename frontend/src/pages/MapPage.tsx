@@ -5,6 +5,7 @@ import { useAppStore } from '@state/store'
 import { metals } from '@utils/mockData'
 import { api } from '@utils/api'
 import PhotoUpload from '@components/PhotoUpload'
+import HealthInfoDisplay from '@components/HealthInfoDisplay'
 import { MapPin, Camera, X } from 'lucide-react'
 import L from 'leaflet'
 
@@ -276,11 +277,11 @@ export default function MapPage() {
         <HeatLayer points={heatPoints} />
         {filtered.map(h => (
           <Marker key={h.id} position={[h.lat, h.lng]}>
-            <Popup>
-              <strong>{h.metal}</strong><br/>
-              Value: {h.value.toFixed(1)}<br/>
-              Risk: <span className={`badge ${h.risk}`}>{h.risk}</span><br/>
-              Updated: {new Date(h.updatedAt).toLocaleTimeString()}
+            <Popup maxWidth={420} maxHeight={520}>
+              <HealthInfoDisplay 
+                hotspot={h} 
+                isPopup={true}
+              />
             </Popup>
           </Marker>
         ))}

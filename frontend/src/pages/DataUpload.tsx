@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PhotoUpload from '../components/PhotoUpload'
 import { environmentalCalcService } from '../utils/environmentalCalculations'
+import { useAppStore, UploadedEntry } from '@state/store'
 
 interface ManualEntry {
   lat: number
@@ -25,6 +27,9 @@ interface MetalEntry {
 }
 
 export default function DataUpload() {
+  const navigate = useNavigate()
+  const { addUploadedData, calculateRiskLevel } = useAppStore()
+  
   // File upload state
   const [file, setFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -190,28 +195,56 @@ export default function DataUpload() {
     }
 
     setIsSubmittingManual(true)
-    setManualStatus('📤 Submitting data to database...')
+    setManualStatus('📤 Processing and adding to map...')
 
     try {
-      // Replace with your actual API endpoint
-      const response = await fetch('/api/manual-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ entries: manualEntries }),
-      })
-
-      if (response.ok) {
-        setManualStatus(`✅ Successfully submitted ${manualEntries.length} entries to database`)
-        // Optionally clear entries after successful submission
-        // setManualEntries([])
-      } else {
-        throw new Error('Submission failed')
+      // Convert manual entries to UploadedEntry format
+      const uploadedEntries: UploadedEntry[] = manualEntries.map(entry => ({
+        lat: entry.lat,
+        lng: entry.lng,
+        metal: entry.metal as any,
+        value: entry.value,
+        locationName: entry.location,
+        notes: entry.notes
+      }))
+      
+      // Add to global state and map
+      addUploadedData(uploadedEntries)
+      
+      setManualStatus(`✅ Successfully added ${manualEntries.length} measurements to map!`)
+      
+      // Clear entries after successful submission
+      setManualEntries([])
+      unlockLocation()
+      setCurrentLocation({ lat: '', lng: '', locationName: '', isLocked: false })
+      
+      // Optional: Try to submit to backend as well
+      try {
+        const response = await fetch('/api/manual-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ entries: manualEntries }),
+        })
+        
+        if (response.ok) {
+          console.log('Data also saved to backend successfully')
+        }
+      } catch (backendError) {
+        console.warn('Backend save failed, but data added to map:', backendError)
       }
+      
+      // Show success message with navigation option
+      setTimeout(() => {
+        if (window.confirm('Data added to map successfully! Would you like to view it on the map now?')) {
+          navigate('/map')
+        }
+      }, 2000)
+      
     } catch (error) {
       console.error('Submission error:', error)
-      setManualStatus('❌ Submission failed. Please try again.')
+      setManualStatus('❌ Failed to process data. Please try again.')
     } finally {
       setIsSubmittingManual(false)
     }
@@ -453,6 +486,51 @@ export default function DataUpload() {
                     color: 'var(--text)'
                   }}
                 />
+                {/* Real-time risk assessment */}
+                {metalEntry.metal && metalEntry.value && (
+                  <div style={{ 
+                    marginTop: '8px', 
+                    padding: '8px 12px', 
+                    borderRadius: '6px',
+                    backgroundColor: (() => {
+                      const risk = calculateRiskLevel(metalEntry.metal as any, parseFloat(metalEntry.value))
+                      return risk === 'high' ? 'rgba(255, 107, 107, 0.1)' :
+                             risk === 'moderate' ? 'rgba(255, 193, 7, 0.1)' :
+                             'rgba(76, 175, 80, 0.1)'
+                    })(),
+                    border: (() => {
+                      const risk = calculateRiskLevel(metalEntry.metal as any, parseFloat(metalEntry.value))
+                      return risk === 'high' ? '1px solid var(--danger)' :
+                             risk === 'moderate' ? '1px solid var(--warning)' :
+                             '1px solid var(--safe)'
+                    })(),
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <span style={{ fontSize: '16px' }}>
+                      {(() => {
+                        const risk = calculateRiskLevel(metalEntry.metal as any, parseFloat(metalEntry.value))
+                        return risk === 'high' ? '🚨' : risk === 'moderate' ? '⚠️' : '✅'
+                      })()} 
+                    </span>
+                    <span style={{ 
+                      fontSize: '12px', 
+                      fontWeight: '600',
+                      color: (() => {
+                        const risk = calculateRiskLevel(metalEntry.metal as any, parseFloat(metalEntry.value))
+                        return risk === 'high' ? 'var(--danger)' :
+                               risk === 'moderate' ? 'var(--warning)' :
+                               'var(--safe)'
+                      })()
+                    }}>
+                      {calculateRiskLevel(metalEntry.metal as any, parseFloat(metalEntry.value)).toUpperCase()} RISK
+                    </span>
+                    <span style={{ fontSize: '11px', color: 'var(--text-secondary)', marginLeft: 'auto' }}>
+                      Will appear on map
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -502,8 +580,17 @@ export default function DataUpload() {
             onClick={handleSubmitManualData}
             disabled={manualEntries.length === 0 || isSubmittingManual}
             className="button"
+            style={{ backgroundColor: 'var(--primary)' }}
           >
-            {isSubmittingManual ? '📤 Submitting...' : '📤 Submit to Database'}
+            {isSubmittingManual ? '📤 Processing...' : '🗺 Add to Map'}
+          </button>
+          
+          <button
+            onClick={() => navigate('/map')}
+            className="button"
+            style={{ backgroundColor: 'var(--safe)', marginLeft: 'auto' }}
+          >
+            🌍 View Map
           </button>
         </div>
 
