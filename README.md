@@ -1,5 +1,7 @@
 # MetalSense - Environmental Risk Assessment Platform
 
+[![Deploy to GitHub Pages](https://github.com/shashwatbaswade09-prog/-metalsense/actions/workflows/pages-deploy.yml/badge.svg)](https://github.com/shashwatbaswade09-prog/-metalsense/actions/workflows/pages-deploy.yml)
+
 ## 🌊 Live Demo
 Visit the deployed application: **[MetalSense on GitHub Pages](https://shashwatbaswade09-prog.github.io/-metalsense/)**
 
